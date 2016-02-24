@@ -61,9 +61,9 @@ config_line() {
 }
 
 if [ -n "$CROWD_CONTEXT" ]; then
-  if [ -z "$CROWDDB_URL" -a -n "$DATABASE_URL" ]; then
+  if [ -z "$CROWDDB_URL" -a -n "$CROWD_DATABASE_URL" ]; then
     used_database_url=1
-    CROWDDB_URL="$DATABASE_URL"
+    CROWDDB_URL="$CROWD_DATABASE_URL"
   fi
   if [ -n "$CROWDDB_URL" ]; then
     extract_database_url "$CROWDDB_URL" CROWDDB ${CROWD_INSTALL}/apache-tomcat/lib
@@ -82,13 +82,13 @@ EOF
 fi
 
 if [ -n "$CROWDID_CONTEXT" ]; then
-  if [ -z "$CROWDIDDB_URL" -a -n "$DATABASE_URL" ]; then
+  if [ -z "$CROWDID_DATABASE_URL" -a -n "$CROWD_DATABASE_URL" ]; then
     if [ -n "$used_database_url" ]; then
-      echo "DATABASE_URL is ambiguous since both Crowd and CrowdID are enabled."
-      echo "Please use CROWDIDDB_URL and CROWDDB_URL instead."
+      echo "CROWD_DATABASE_URL is ambiguous since both Crowd and CrowdID are enabled."
+      echo "Please use CROWD_DATABASE_URL and CROWDID_DATABASE_URL instead."
       exit 2
     fi
-    CROWDIDDB_URL="$DATABASE_URL"
+    CROWDIDDB_URL="$CROWDID_DATABASE_URL"
   fi
   if [ -n "$CROWDIDDB_URL" ]; then
     extract_database_url "$CROWDIDDB_URL" CROWDIDDB "${CROWD_INSTALL}/apache-tomcat/lib"
