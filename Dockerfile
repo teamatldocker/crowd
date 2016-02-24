@@ -16,7 +16,9 @@ ENV CROWD_HOME=/var/atlassian/crowd \
     CROWDID_CONTEXT=openidserver \
     OPENID_CLIENT_CONTEXT=openidclient \
     DEMO_CONTEXT=demo \
-    SPLASH_CONTEXT=ROOT
+    SPLASH_CONTEXT=ROOT \
+    MYSQL_DRIVER_VERSION=5.1.38 \
+    POSTGRESQL_DRIVER_VERSION=9.4.1207
 
 RUN export CONTAINER_USER=crowd &&  \
     export CONTAINER_GROUP=crowd &&  \
