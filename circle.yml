@@ -1,0 +1,19 @@
+machine:
+  pre:
+    - curl -sSL https://s3.amazonaws.com/circle-downloads/install-circleci-docker.sh | bash -s -- 1.10.0
+
+  services:
+    - docker
+
+dependencies:
+  override:
+    - docker version
+    - docker info
+    - docker build -t blacklabelops/crowd .
+
+test:
+  override:
+    - docker run -d -p 8100:8095 --name="crowd" blacklabelops/crowd
+    - sleep 30
+    - curl --retry 10 --retry-delay 5 -v http://localhost:8100/
+    - docker stop crowd
