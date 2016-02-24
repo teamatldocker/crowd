@@ -8,6 +8,26 @@
 
 set -o errexit
 
+function processCrowdProxySettings() {
+  if [ -n "${CROWD_PROXY_NAME}" ]; then
+    xmlstarlet ed -P -S -L --insert "//Connector[not(@proxyName)]" --type attr -n proxyName --value "${CROWD_PROXY_NAME}" ${CROWD_INSTALL}/apache-tomcat/conf/server.xml
+  fi
+
+  if [ -n "${CROWD_PROXY_PORT}" ]; then
+    xmlstarlet ed -P -S -L --insert "//Connector[not(@proxyPort)]" --type attr -n proxyPort --value "${CROWD_PROXY_PORT}" ${CROWD_INSTALL}/apache-tomcat/conf/server.xml
+  fi
+
+  if [ -n "${CROWD_PROXY_SCHEME}" ]; then
+    xmlstarlet ed -P -S -L --insert "//Connector[not(@scheme)]" --type attr -n scheme --value "${CROWD_PROXY_SCHEME}" ${CROWD_INSTALL}/apache-tomcat/conf/server.xml
+  fi
+}
+
+if [ -n "${CROWD_DELAYED_START}" ]; then
+  sleep ${CROWD_DELAYED_START}
+fi
+
+processConfluenceProxySettings
+
 if [ "$1" = 'crowd' ] || [ "${1:0:1}" = '-' ]; then
   exec ${CROWD_INSTALL}/launch.sh
 else

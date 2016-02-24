@@ -8,6 +8,9 @@ ARG CONTAINER_GID=1000
 
 ENV CROWD_HOME=/var/atlassian/crowd \
     CROWD_INSTALL=/opt/crowd \
+    CROWD_PROXY_NAME= \
+    CROWD_PROXY_PORT= \
+    CROWD_PROXY_SCHEME= \
     CROWD_URL=http://localhost:8095/crowd \
     CROWD_DATABASE_URL= \
     CROWDID_DATABASE_URL= \
