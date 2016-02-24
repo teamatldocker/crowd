@@ -45,8 +45,6 @@ RUN export CONTAINER_USER=crowd &&  \
     mv ${CROWD_INSTALL}/apache-tomcat/conf/Catalina/localhost ${CROWD_INSTALL}/webapps && \
     mkdir -p ${CROWD_HOME} && \
     mkdir -p ${CROWD_INSTALL}/apache-tomcat/conf/Catalina/localhost && \
-    chown -R crowd:crowd ${CROWD_HOME} && \
-    chown -R crowd:crowd ${CROWD_INSTALL} && \
     # Install database drivers
     rm -f \
       ${CROWD_INSTALL}/apache-tomcat/lib/mysql-connector-java*.jar &&  \
@@ -59,7 +57,8 @@ RUN export CONTAINER_USER=crowd &&  \
     rm -f ${CROWD_INSTALL}/lib/postgresql-*.jar &&  \
     wget -O ${CROWD_INSTALL}/apache-tomcat/lib/postgresql-${POSTGRESQL_DRIVER_VERSION}.jar \
       https://jdbc.postgresql.org/download/postgresql-${POSTGRESQL_DRIVER_VERSION}.jar && \
-    chown -R confluence:confluence ${CROWD_INSTALL} && \
+    chown -R crowd:crowd ${CROWD_HOME} && \
+    chown -R crowd:crowd ${CROWD_INSTALL} && \
     # Remove obsolete packages
     apk del \
       ca-certificates \
