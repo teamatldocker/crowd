@@ -26,7 +26,7 @@ if [ -n "${CROWD_DELAYED_START}" ]; then
   sleep ${CROWD_DELAYED_START}
 fi
 
-processConfluenceProxySettings
+processCrowdProxySettings
 
 if [ "$1" = 'crowd' ] || [ "${1:0:1}" = '-' ]; then
   exec ${CROWD_INSTALL}/launch.sh
