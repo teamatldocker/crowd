@@ -2,6 +2,9 @@ FROM blacklabelops/java:jre7
 MAINTAINER Steffen Bleul <sbl@blacklabelops.com>
 
 ARG CROWD_VERSION=2.8.4
+# permissions
+ARG CONTAINER_UID=1000
+ARG CONTAINER_GID=1000
 
 ENV CROWD_HOME=/var/atlassian/crowd \
     CROWD_INSTALL=/opt/crowd \
@@ -15,7 +18,15 @@ ENV CROWD_HOME=/var/atlassian/crowd \
     DEMO_CONTEXT=demo \
     SPLASH_CONTEXT=ROOT
 
-RUN apk add --update \
+RUN export CONTAINER_USER=crowd &&  \
+    export CONTAINER_GROUP=crowd &&  \
+    addgroup -g $CONTAINER_GID $CONTAINER_GROUP &&  \
+    adduser -u $CONTAINER_UID \
+            -G $CONTAINER_GROUP \
+            -h /home/$CONTAINER_USER \
+            -s /bin/bash \
+            -S $CONTAINER_USER &&  \
+    apk add --update \
       ca-certificates \
       gzip \
       wget &&  \
@@ -32,21 +43,22 @@ RUN apk add --update \
     mv ${CROWD_INSTALL}/apache-tomcat/conf/Catalina/localhost ${CROWD_INSTALL}/webapps && \
     mkdir -p ${CROWD_HOME} && \
     mkdir -p ${CROWD_INSTALL}/apache-tomcat/conf/Catalina/localhost && \
+    chown -R crowd:crowd ${CROWD_HOME} && \
+    chown -R crowd:crowd ${CROWD_INSTALL} && \
     # Remove obsolete packages
     apk del \
       ca-certificates \
       gzip \
       wget &&  \
     # Clean caches and tmps
-    rm -rf /var/cache/apk/* &&  \
-    rm -rf /tmp/* &&  \
+    rm -rf /var/cache/apk/* && \
+    rm -rf /tmp/* && \
     rm -rf /var/log/*
 
+USER crowd
 ADD splash-context.xml /opt/crowd/webapps/splash.xml
-
 WORKDIR /var/atlassian/crowd
-#VOLUME ["/var/atlassian/crowd","/opt/crowd/apache-tomcat/logs"]
-VOLUME ["/var/atlassian/crowd"]
+VOLUME ["/var/atlassian/crowd","/opt/crowd/apache-tomcat/logs"]
 EXPOSE 8095
 COPY imagescripts /opt/crowd
 ENTRYPOINT ["/opt/crowd/docker-entrypoint.sh"]
