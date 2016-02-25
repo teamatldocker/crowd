@@ -10,11 +10,11 @@ ENV CROWD_HOME=/var/atlassian/crowd \
     CROWD_INSTALL=/opt/crowd \
     CROWD_PROXY_NAME= \
     CROWD_PROXY_PORT= \
-    CROWD_PROXY_SCHEME= \
-    MYSQL_DRIVER_VERSION=5.1.38 \
-    POSTGRESQL_DRIVER_VERSION=9.4.1207
+    CROWD_PROXY_SCHEME=
 
-RUN export CONTAINER_USER=crowd &&  \
+RUN export MYSQL_DRIVER_VERSION=5.1.38 && \
+    export POSTGRESQL_DRIVER_VERSION=9.4.1207 && \
+    export CONTAINER_USER=crowd &&  \
     export CONTAINER_GROUP=crowd &&  \
     addgroup -g $CONTAINER_GID $CONTAINER_GROUP &&  \
     adduser -u $CONTAINER_UID \
@@ -49,7 +49,12 @@ RUN export CONTAINER_USER=crowd &&  \
     rm -f ${CROWD_INSTALL}/lib/postgresql-*.jar &&  \
     wget -O ${CROWD_INSTALL}/apache-tomcat/lib/postgresql-${POSTGRESQL_DRIVER_VERSION}.jar \
       https://jdbc.postgresql.org/download/postgresql-${POSTGRESQL_DRIVER_VERSION}.jar && \
-    chown -R crowd:crowd ${CROWD_HOME} && \
+    # Adjusting directories
+    mv ${CROWD_INSTALL}/apache-tomcat/webapps/ROOT /opt/crowd/splash-webapp && \
+    mv ${CROWD_INSTALL}/apache-tomcat/conf/Catalina/localhost /opt/crowd/webapps && \
+    mkdir -p ${CROWD_INSTALL}/apache-tomcat/conf/Catalina/localhost
+ADD splash-context.xml /opt/crowd/webapps/splash.xml
+RUN chown -R crowd:crowd ${CROWD_HOME} && \
     chown -R crowd:crowd ${CROWD_INSTALL} && \
     # Remove obsolete packages
     apk del \
@@ -60,6 +65,14 @@ RUN export CONTAINER_USER=crowd &&  \
     rm -rf /var/cache/apk/* && \
     rm -rf /tmp/* && \
     rm -rf /var/log/*
+
+ENV CROWD_URL=http://localhost:8095/crowd \
+    LOGIN_BASE_URL=http://localhost:8095 \
+    CROWD_CONTEXT=crowd \
+    CROWDID_CONTEXT=openidserver \
+    OPENID_CLIENT_CONTEXT=openidclient \
+    DEMO_CONTEXT=demo \
+    SPLASH_CONTEXT=ROOT
 
 USER crowd
 WORKDIR /var/atlassian/crowd

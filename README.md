@@ -57,6 +57,45 @@ Thirdly, configure your Crowd yourself and fill it with a test license.
 1. In `Options` choose `http://localhost:8095/crowd` for field `Base URL` otherwise you won't be able to connect later on.
 1. Fill out the rest of the installation procedure.
 
+# Disabling The Splash Context
+
+Set the Splash Screens context to empty string and crowd to root context.
+
+~~~~
+$ docker run -d --name crowd \
+    -e "CROWD_URL=http://localhost:8095" \
+	  -e "SPLASH_CONTEXT=" \
+    -e "CROWD_CONTEXT=ROOT" \
+	  -p 8095:8095 blacklabelops/crowd
+~~~~
+
+> Splash context will never be shown, crowd will be shown under http://youdockerhost/
+
+# Disabling OpenID & Demo Contexts
+
+Disable all contexts to make sub application inaccessible (e.g. you do not use them)
+
+You can disable applications by setting der context to empty string:
+
+* Crowd: CROWD_CONTEXT
+* Splash: SPLASH_CONTEXT
+* OpenID server: CROWDID_CONTEXT
+* OpenID client: OPENID_CLIENT_CONTEXT
+
+Example:
+
+~~~~
+$ docker run -d --name crowd \
+    -e "CROWD_URL=http://localhost:8095" \
+	  -e "SPLASH_CONTEXT=" \
+    -e "CROWD_CONTEXT=ROOT" \
+    -e "CROWDID_CONTEXT=" \
+    -e "OPENID_CLIENT_CONTEXT=" \
+	  -p 8095:8095 blacklabelops/crowd
+~~~~
+
+> Subapplication will not be accessible anymore. Crowd will run under root context under http://youdockerhost/
+
 # Support & Feature Requests
 
 Leave a message and ask questions on Hipchat: [blacklabelops/hipchat](https://www.hipchat.com/geogBFvEM)
