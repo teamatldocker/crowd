@@ -114,8 +114,8 @@ config_line build.properties crowd.url "$CROWD_URL"
 ./build.sh
 
 if [ -f "${CROWD_HOME}/crowd.properties" ]; then
-  config_line /opt/atlassion-home/crowd.properties crowd.server.url "$(config_line crowd-webapp/WEB-INF/classes/crowd.properties crowd.server.url)"
-  config_line /opt/atlassion-home/crowd.properties application.login.url "$(config_line crowd-webapp/WEB-INF/classes/crowd.properties application.login.url)"
+  config_line ${CROWD_HOME}/crowd.properties crowd.server.url "$(config_line crowd-webapp/WEB-INF/classes/crowd.properties crowd.server.url)"
+  config_line ${CROWD_HOME}/crowd.properties application.login.url "$(config_line crowd-webapp/WEB-INF/classes/crowd.properties application.login.url)"
 fi
 
 apache-tomcat/bin/catalina.sh run
