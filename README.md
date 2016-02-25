@@ -96,6 +96,10 @@ $ docker run -d --name crowd \
 
 > Subapplication will not be accessible anymore. Crowd will run under root context under http://youdockerhost/
 
+# More In-Depth Features
+
+The full feature list is documented here as this image is feature identical with the atlassian example: [Readme.md](https://bitbucket.org/atlassianlabs/atlassian-docker/src/ee4a3434b1443ed4d9cfbf721ba7d4556da8c005/crowd/?at=master)
+
 # Support & Feature Requests
 
 Leave a message and ask questions on Hipchat: [blacklabelops/hipchat](https://www.hipchat.com/geogBFvEM)
