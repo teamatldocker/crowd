@@ -1,7 +1,7 @@
 FROM blacklabelops/java:jre7
 MAINTAINER Steffen Bleul <sbl@blacklabelops.com>
 
-ARG CROWD_VERSION=2.8.4
+ARG CROWD_VERSION=2.8.3
 # permissions
 ARG CONTAINER_UID=1000
 ARG CONTAINER_GID=1000
@@ -11,15 +11,6 @@ ENV CROWD_HOME=/var/atlassian/crowd \
     CROWD_PROXY_NAME= \
     CROWD_PROXY_PORT= \
     CROWD_PROXY_SCHEME= \
-    CROWD_URL=http://localhost:8095/crowd \
-    CROWD_DATABASE_URL= \
-    CROWDID_DATABASE_URL= \
-    LOGIN_BASE_URL=http://localhost:8095 \
-    CROWD_CONTEXT=crowd \
-    CROWDID_CONTEXT=openidserver \
-    OPENID_CLIENT_CONTEXT=openidclient \
-    DEMO_CONTEXT=demo \
-    SPLASH_CONTEXT=ROOT \
     MYSQL_DRIVER_VERSION=5.1.38 \
     POSTGRESQL_DRIVER_VERSION=9.4.1207
 
@@ -43,11 +34,9 @@ RUN export CONTAINER_USER=crowd &&  \
     tar zxf /tmp/crowd.tar.gz -C /tmp && \
     mv /tmp/atlassian-crowd-${CROWD_VERSION} /tmp/crowd && \
     mv /tmp/crowd /opt/crowd && \
-    echo "crowd.home = ${CROWD_HOME}" > ${CROWD_INSTALL}/crowd-webapp/WEB-INF/classes/crowd-init.properties && \
-    mv ${CROWD_INSTALL}/apache-tomcat/webapps/ROOT ${CROWD_INSTALL}/splash-webapp && \
-    mv ${CROWD_INSTALL}/apache-tomcat/conf/Catalina/localhost ${CROWD_INSTALL}/webapps && \
     mkdir -p ${CROWD_HOME} && \
-    mkdir -p ${CROWD_INSTALL}/apache-tomcat/conf/Catalina/localhost && \
+    mkdir -p ${CROWD_INSTALL}/crowd-webapp/WEB-INF/classes && \
+    echo "crowd.home=${CROWD_HOME}" > ${CROWD_INSTALL}/crowd-webapp/WEB-INF/classes/crowd-init.properties && \
     # Install database drivers
     rm -f \
       ${CROWD_INSTALL}/apache-tomcat/lib/mysql-connector-java*.jar &&  \
@@ -73,10 +62,9 @@ RUN export CONTAINER_USER=crowd &&  \
     rm -rf /var/log/*
 
 USER crowd
-ADD splash-context.xml /opt/crowd/webapps/splash.xml
 WORKDIR /var/atlassian/crowd
-VOLUME ["/var/atlassian/crowd","/opt/crowd/apache-tomcat/logs"]
+VOLUME ["/var/atlassian/crowd"]
 EXPOSE 8095
-COPY imagescripts /opt/crowd
-ENTRYPOINT ["/opt/crowd/docker-entrypoint.sh"]
+COPY imagescripts /home/crowd
+ENTRYPOINT ["/home/crowd/docker-entrypoint.sh"]
 CMD ["crowd"]

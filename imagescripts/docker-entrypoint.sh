@@ -29,7 +29,7 @@ fi
 processCrowdProxySettings
 
 if [ "$1" = 'crowd' ] || [ "${1:0:1}" = '-' ]; then
-  exec ${CROWD_INSTALL}/launch.sh
+  exec ${CROWD_INSTALL}/apache-tomcat/bin/catalina.sh run
 else
   exec "$@"
 fi

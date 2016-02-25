@@ -1,8 +1,8 @@
 # Dockerized Atlassian Crowd
 
-Work In Progress! 
+Work In Progress!
 
-WARNING: According to my latest tests the container is losing its state when recreated. Need to figure out how to preserver state and still being able to update Crowd.
+Image refactored, tag 2.8.4 deleted because of problems, now running version 2.8.3.
 
 # Make It Short
 
