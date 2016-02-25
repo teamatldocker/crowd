@@ -1,6 +1,8 @@
 # Dockerized Atlassian Crowd
 
-Work In Progress
+Work In Progress! 
+
+WARNING: According to my latest tests the container is losing its state when recreated. Need to figure out how to preserver state and still being able to update Crowd.
 
 # Make It Short
 
