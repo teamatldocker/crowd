@@ -40,6 +40,8 @@ $ docker run -d --name crowd \
 
 Thirdly, configure your Crowd yourself and fill it with a test license.
 
+Point your browser to http://yourdockerhost:8095
+
 1. Choose `Set up Crowd`
 1. Create and enter license information
 1. Choose `New installation`
@@ -65,13 +67,13 @@ $ docker run -d --name crowd \
 	  -p 8095:8095 blacklabelops/crowd
 ~~~~
 
-> Splash context will never be shown, crowd will be shown under http://youdockerhost/
+> Splash context will never be shown, crowd will be shown under http://youdockerhost:8095/
 
 # Disabling OpenID & Demo Contexts
 
 Disable all contexts to make sub application inaccessible (e.g. you do not use them)
 
-You can disable applications by setting der context to empty string:
+You can disable applications by setting their context to empty string:
 
 * Crowd: CROWD_CONTEXT
 * Splash: SPLASH_CONTEXT
@@ -90,7 +92,7 @@ $ docker run -d --name crowd \
 	  -p 8095:8095 blacklabelops/crowd
 ~~~~
 
-> Subapplication will not be accessible anymore. Crowd will run under root context under http://youdockerhost/
+> Subapplications will not be accessible anymore. Crowd will run under root context under http://youdockerhost:8095/
 
 # More In-Depth Features
 
