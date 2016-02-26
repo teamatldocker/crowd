@@ -1,9 +1,5 @@
 # Dockerized Atlassian Crowd
 
-Work In Progress!
-
-Image refactored, tag 2.8.4 deleted because of problems, now running version 2.8.3.
-
 # Make It Short
 
 Just type and follow the manual installation procedure in your browser:
