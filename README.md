@@ -94,6 +94,95 @@ $ docker run -d --name crowd \
 
 > Subapplications will not be accessible anymore. Crowd will run under root context under http://youdockerhost:8095/
 
+# Proxy Configuration
+
+You can specify your proxy host and proxy port with the environment variables CROWD_PROXY_NAME and CROWD_PROXY_PORT. The value will be set inside the Atlassian server.xml at startup!
+
+When you use https then you also have to include the environment variable CROWD_PROXY_SCHEME.
+
+Example HTTPS:
+
+* Proxy Name: myhost.example.com
+* Proxy Port: 443
+* Poxy Protocol Scheme: https
+
+Just type:
+
+~~~~
+$ docker run -d --name crowd \
+    -e "CROWD_PROXY_NAME=myhost.example.com" \
+    -e "CROWD_PROXY_PORT=443" \
+    -e "CROWD_PROXY_SCHEME=https" \
+    blacklabelops/crowd
+~~~~
+
+> Will set the values inside the server.xml in /opt/crowd/.../server.xml
+
+# NGINX HTTP Proxy
+
+This is an example on running Atlassian Crowd behind NGINX with 2 Docker commands!
+
+First start Crowd:
+
+~~~~
+$ docker run -d --name crowd \
+    -e "CROWD_PROXY_NAME=192.168.99.100" \
+    -e "CROWD_PROXY_PORT=80" \
+    -e "CROWD_PROXY_SCHEME=http" \
+    blacklabelops/crowd
+~~~~
+
+> Example with dockertools
+
+Then start NGINX:
+
+~~~~
+$ docker run -d \
+    -p 80:8080 \
+    --name nginx \
+    --link crowd:crowd \
+    -e "SERVER1REVERSE_PROXY_LOCATION1=/" \
+    -e "SERVER1REVERSE_PROXY_PASS1=http://crowd:8095" \
+    blacklabelops/nginx
+~~~~
+
+> Crowd will be available at http://192.168.99.100.
+
+# NGINX HTTPS Proxy
+
+This is an example on running Atlassian Crowd behind NGINX-HTTPS with2 Docker commands!
+
+Note: This is a self-signed certificate! Trusted certificates by letsencrypt are supported. Documentation can be found here: [blacklabelops/nginx](https://github.com/blacklabelops/nginx)
+
+First start Crowd:
+
+~~~~
+$ docker run -d --name crowd \
+    -e "CROWD_PROXY_NAME=192.168.99.100" \
+    -e "CROWD_PROXY_PORT=80" \
+    -e "CROWD_PROXY_SCHEME=http" \
+    blacklabelops/crowd
+~~~~
+
+> Example with dockertools
+
+Then start NGINX:
+
+~~~~
+$ docker run -d \
+    -p 443:44300 \
+    --name nginx \
+    --link crowd:crowd \
+    -e "SERVER1REVERSE_PROXY_LOCATION1=/" \
+    -e "SERVER1REVERSE_PROXY_PASS1=http://crowd:8095" \
+    -e "SERVER1CERTIFICATE_DNAME=/CN=CrustyClown/OU=SpringfieldEntertainment/O=crusty.springfield.com/L=Springfield/C=US" \
+    -e "SERVER1HTTPS_ENABLED=true" \
+    -e "SERVER1HTTP_ENABLED=false" \
+    blacklabelops/nginx
+~~~~
+
+> Crowd will be available at https://192.168.99.100.
+
 # More In-Depth Features
 
 The full feature list is documented here as this image is feature identical with the atlassian example: [Readme.md](https://bitbucket.org/atlassianlabs/atlassian-docker/src/ee4a3434b1443ed4d9cfbf721ba7d4556da8c005/crowd/?at=master)
