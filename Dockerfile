@@ -32,10 +32,16 @@ RUN export MYSQL_DRIVER_VERSION=5.1.38 && \
       --allow-untrusted &&  \
     wget -O /tmp/crowd.tar.gz https://www.atlassian.com/software/crowd/downloads/binary/atlassian-crowd-${CROWD_VERSION}.tar.gz && \
     tar zxf /tmp/crowd.tar.gz -C /tmp && \
+    ls -A /tmp && \
     mv /tmp/atlassian-crowd-${CROWD_VERSION} /tmp/crowd && \
+    ls -A /tmp && \
+    mkdir -p ${CROWD_INSTALL} && \
     mv /tmp/crowd /opt/crowd && \
     mkdir -p ${CROWD_HOME} && \
     mkdir -p ${CROWD_INSTALL}/crowd-webapp/WEB-INF/classes && \
+    mkdir -p ${CROWD_INSTALL}/apache-tomcat/lib && \
+    mkdir -p ${CROWD_INSTALL}/apache-tomcat/webapps/ROOT && \
+    mkdir -p ${CROWD_INSTALL}/apache-tomcat/conf/Catalina/localhost && \
     echo "crowd.home=${CROWD_HOME}" > ${CROWD_INSTALL}/crowd-webapp/WEB-INF/classes/crowd-init.properties && \
     # Install database drivers
     rm -f \
@@ -51,8 +57,7 @@ RUN export MYSQL_DRIVER_VERSION=5.1.38 && \
       https://jdbc.postgresql.org/download/postgresql-${POSTGRESQL_DRIVER_VERSION}.jar && \
     # Adjusting directories
     mv ${CROWD_INSTALL}/apache-tomcat/webapps/ROOT /opt/crowd/splash-webapp && \
-    mv ${CROWD_INSTALL}/apache-tomcat/conf/Catalina/localhost /opt/crowd/webapps && \
-    mkdir -p ${CROWD_INSTALL}/apache-tomcat/conf/Catalina/localhost
+    mv ${CROWD_INSTALL}/apache-tomcat/conf/Catalina/localhost /opt/crowd/webapps
 ADD splash-context.xml /opt/crowd/webapps/splash.xml
 RUN chown -R crowd:crowd ${CROWD_HOME} && \
     chown -R crowd:crowd ${CROWD_INSTALL} && \
