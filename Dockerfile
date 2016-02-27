@@ -57,7 +57,8 @@ RUN export MYSQL_DRIVER_VERSION=5.1.38 && \
       https://jdbc.postgresql.org/download/postgresql-${POSTGRESQL_DRIVER_VERSION}.jar && \
     # Adjusting directories
     mv ${CROWD_INSTALL}/apache-tomcat/webapps/ROOT /opt/crowd/splash-webapp && \
-    mv ${CROWD_INSTALL}/apache-tomcat/conf/Catalina/localhost /opt/crowd/webapps
+    mv ${CROWD_INSTALL}/apache-tomcat/conf/Catalina/localhost /opt/crowd/webapps && \
+    mkdir -p ${CROWD_INSTALL}/apache-tomcat/conf/Catalina/localhost
 ADD splash-context.xml /opt/crowd/webapps/splash.xml
 RUN chown -R crowd:crowd ${CROWD_HOME} && \
     chown -R crowd:crowd ${CROWD_INSTALL} && \
