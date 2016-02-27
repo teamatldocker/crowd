@@ -35,7 +35,7 @@ RUN export MYSQL_DRIVER_VERSION=5.1.38 && \
     ls -A /tmp && \
     mv /tmp/atlassian-crowd-${CROWD_VERSION} /tmp/crowd && \
     ls -A /tmp && \
-    mkdir -p ${CROWD_INSTALL} && \
+    mkdir -p /opt && \
     mv /tmp/crowd /opt/crowd && \
     mkdir -p ${CROWD_HOME} && \
     mkdir -p ${CROWD_INSTALL}/crowd-webapp/WEB-INF/classes && \
