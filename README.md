@@ -1,6 +1,28 @@
 # Dockerized Atlassian Crowd
 
+[![Circle CI](https://circleci.com/gh/blacklabelops/crowd/tree/master.svg?style=shield)](https://circleci.com/gh/blacklabelops/crowd/tree/master) [![Docker Stars](https://img.shields.io/docker/stars/blacklabelops/crowd.svg)](https://hub.docker.com/r/blacklabelops/crowd/) [![Docker Pulls](https://img.shields.io/docker/pulls/blacklabelops/crowd.svg)](https://hub.docker.com/r/blacklabelops/crowd/)
+
+## Supported tags and respective Dockerfile links
+
+| Version | Tags  | Dockerfile |
+|---------|-------|------------|
+|  2.8.4  | 2.8.4, latest | [Dockerfile](https://github.com/blacklabelops/crowd/blob/master/Dockerfile) |
+
+> Older tags remain but are not supported/rebuild.
+
+
 # Make It Short
+
+Docker-Compose:
+
+~~~~
+$ curl -O https://raw.githubusercontent.com/blacklabelops/crowd/master/docker-compose.yml
+$ docker-compose up -d
+~~~~
+
+> Crowd will be available at http://yourdockerhost:8095
+
+Docker-CLI:
 
 Just type and follow the manual installation procedure in your browser:
 

@@ -1,0 +1,51 @@
+version: '2'
+
+services:
+  crowd:
+    image: blacklabelops/crowd
+    container_name: crowd
+    networks:
+      - crowdnet
+    volumes:
+      - crowddata:/var/atlassian/crowd
+    ports:
+      - '8095:8095'
+    environment:
+      - "CROWD_PROXY_NAME="
+      - "CROWD_PROXY_PORT="
+      - "CROWD_PROXY_SCHEME="
+      - "CROWD_URL=http://localhost:8095/crowd"
+      - "LOGIN_BASE_URL=http://localhost:8095"
+      - "SPLASH_CONTEXT=ROOT"
+      - "CROWD_CONTEXT=crowd"
+      - "CROWDID_CONTEXT=openidserver"
+      - "OPENID_CLIENT_CONTEXT=openidclient"
+      - "DEMO_CONTEXT=demo"
+    labels:
+      com.blacklabelops.description: "Atlassian Crowd"
+      com.blacklabelops.service: "crowd"
+
+  postgresql:
+    image: blacklabelops/postgres
+    hostname: postgresql
+    networks:
+      - crowdnet
+    volumes:
+      - postgresqldata:/var/lib/postgresql/data
+    environment:
+        - 'POSTGRES_DB=crowddb'
+        - 'POSTGRES_USER=crowddb'
+        - 'POSTGRES_PASSWORD=jellyfish'
+    labels:
+      com.blacklabelops.description: "PostgreSQL Database Server"
+      com.blacklabelops.service: "postgresql"
+
+volumes:
+  crowddata:
+    external: false
+  postgresqldata:
+    external: false
+
+networks:
+  crowdnet:
+    driver: bridge
