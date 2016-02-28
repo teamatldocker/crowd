@@ -65,7 +65,7 @@ RUN export MYSQL_DRIVER_VERSION=5.1.38 && \
     rm -f /home/${CONTAINER_USER}/letsencryptauthorityx1.der && \
     # Install atlassian ssl tool
     wget -O /home/${CONTAINER_USER}/SSLPoke.class https://confluence.atlassian.com/kb/files/779355358/SSLPoke.class && \
-    chown -R crowd:crowd /home/${CONTAINER_USER} && \
+    chown -R crowd:crowd /home/${CONTAINER_USER}
 ADD splash-context.xml /opt/crowd/webapps/splash.xml
 RUN chown -R crowd:crowd ${CROWD_HOME} && \
     chown -R crowd:crowd ${CROWD_INSTALL} && \
