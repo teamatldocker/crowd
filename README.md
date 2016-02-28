@@ -2,6 +2,8 @@
 
 [![Circle CI](https://circleci.com/gh/blacklabelops/crowd/tree/master.svg?style=shield)](https://circleci.com/gh/blacklabelops/crowd/tree/master) [![Docker Stars](https://img.shields.io/docker/stars/blacklabelops/crowd.svg)](https://hub.docker.com/r/blacklabelops/crowd/) [![Docker Pulls](https://img.shields.io/docker/pulls/blacklabelops/crowd.svg)](https://hub.docker.com/r/blacklabelops/crowd/)
 
+"Users can come from anywhere: Active Directory, LDAP, Crowd itself, or any mix thereof. Control permissions to all your applications in one place – Atlassian, Subversion, Google Apps, or your own apps." - [[Source](https://www.atlassian.com/software/crowd/overview)]
+
 ## Supported tags and respective Dockerfile links
 
 | Version | Tags  | Dockerfile |
@@ -10,6 +12,14 @@
 
 > Older tags remain but are not supported/rebuild.
 
+## Related Images
+
+You may also like:
+
+* [blacklabelops/jira](https://github.com/blacklabelops/jira): The #1 software development tool used by agile teams
+* [blacklabelops/confluence](https://github.com/blacklabelops/confluence): Create, organize, and discuss work with your team
+* [blacklabelops/bitbucket](https://github.com/blacklabelops/bitbucket): Code, Manage, Collaborate
+* [blacklabelops/crowd](https://github.com/blacklabelops/crowd): Identity management for web apps
 
 # Make It Short
 
