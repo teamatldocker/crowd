@@ -64,7 +64,7 @@ RUN export MYSQL_DRIVER_VERSION=5.1.38 && \
     keytool -trustcacerts -keystore $JAVA_HOME/jre/lib/security/cacerts -storepass changeit -noprompt -importcert -file /home/${CONTAINER_USER}/letsencryptauthorityx1.der && \
     rm -f /home/${CONTAINER_USER}/letsencryptauthorityx1.der && \
     # Install atlassian ssl tool
-    wget -O /home/${CONTAINER_USER}/SSLPoke.class https://confluence.atlassian.com/kb/files/779355358/SSLPoke.class && \
+    wget -O /home/${CONTAINER_USER}/SSLPoke.class https://confluence.atlassian.com/kb/files/779355358/779355357/1/1441897666313/SSLPoke.class && \
     chown -R crowd:crowd /home/${CONTAINER_USER}
 ADD splash-context.xml /opt/crowd/webapps/splash.xml
 RUN chown -R crowd:crowd ${CROWD_HOME} && \
