@@ -25,6 +25,7 @@ RUN export MYSQL_DRIVER_VERSION=5.1.38 && \
     apk add --update \
       ca-certificates \
       gzip \
+      curl \
       wget &&  \
     apk add xmlstarlet --update-cache \
       --repository \
@@ -77,6 +78,7 @@ RUN chown -R crowd:crowd ${CROWD_HOME} && \
     apk del \
       ca-certificates \
       gzip \
+      curl \
       wget &&  \
     # Clean caches and tmps
     rm -rf /var/cache/apk/* && \
