@@ -1,4 +1,4 @@
-FROM blacklabelops/java:openjdk7
+FROM blacklabelops/java:openjdk8
 MAINTAINER Steffen Bleul <sbl@blacklabelops.com>
 
 ARG CROWD_VERSION=2.9.1
