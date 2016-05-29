@@ -61,7 +61,7 @@ RUN export MYSQL_DRIVER_VERSION=5.1.38 && \
     mv ${CROWD_INSTALL}/apache-tomcat/conf/Catalina/localhost /opt/crowd/webapps && \
     mkdir -p ${CROWD_INSTALL}/apache-tomcat/conf/Catalina/localhost && \
     # Adding letsencrypt-ca to truststore
-    export KEYSTORE=$JAVA_HOME/lib/security/cacerts && \
+    export KEYSTORE=$JAVA_HOME/jre/lib/security/cacerts && \
     wget -P /tmp/ https://letsencrypt.org/certs/letsencryptauthorityx1.der && \
     wget -P /tmp/ https://letsencrypt.org/certs/letsencryptauthorityx2.der && \
     wget -P /tmp/ https://letsencrypt.org/certs/lets-encrypt-x1-cross-signed.der && \
