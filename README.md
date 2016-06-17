@@ -117,7 +117,7 @@ Example:
 ~~~~
 $ docker run -d --name crowd \
     -e "CROWD_URL=http://localhost:8095" \
-	  -e "SPLASH_CONTEXT=" \
+    -e "SPLASH_CONTEXT=" \
     -e "CROWD_CONTEXT=ROOT" \
     -e "CROWDID_CONTEXT=" \
     -e "OPENID_CLIENT_CONTEXT=" \
@@ -170,7 +170,7 @@ Then start NGINX:
 
 ~~~~
 $ docker run -d \
-    -p 80:8080 \
+    -p 80:80 \
     --name nginx \
     --link crowd:crowd \
     -e "SERVER1REVERSE_PROXY_LOCATION1=/" \
@@ -202,7 +202,7 @@ Then start NGINX:
 
 ~~~~
 $ docker run -d \
-    -p 443:44300 \
+    -p 443:443 \
     --name nginx \
     --link crowd:crowd \
     -e "SERVER1REVERSE_PROXY_LOCATION1=/" \
