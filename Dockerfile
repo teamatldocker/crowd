@@ -27,10 +27,10 @@ RUN export MYSQL_DRIVER_VERSION=5.1.38 && \
       gzip \
       curl \
       wget &&  \
-    apk add xmlstarlet --update-cache \
-      --repository \
-      http://dl-3.alpinelinux.org/alpine/edge/testing/ \
-      --allow-untrusted &&  \
+    # Install xmlstarlet
+    export XMLSTARLET_VERSION=1.6.1-r1              &&  \
+    wget --directory-prefix=/tmp https://github.com/menski/alpine-pkg-xmlstarlet/releases/download/${XMLSTARLET_VERSION}/xmlstarlet-${XMLSTARLET_VERSION}.apk && \
+    apk add --allow-untrusted /tmp/xmlstarlet-${XMLSTARLET_VERSION}.apk && \
     wget -O /tmp/crowd.tar.gz https://www.atlassian.com/software/crowd/downloads/binary/atlassian-crowd-${CROWD_VERSION}.tar.gz && \
     tar zxf /tmp/crowd.tar.gz -C /tmp && \
     ls -A /tmp && \
