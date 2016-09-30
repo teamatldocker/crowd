@@ -1,7 +1,7 @@
 FROM blacklabelops/java:openjdk8
 MAINTAINER Steffen Bleul <sbl@blacklabelops.com>
 
-ARG CROWD_VERSION=2.9.1
+ARG CROWD_VERSION=2.10.1
 # permissions
 ARG CONTAINER_UID=1000
 ARG CONTAINER_GID=1000
