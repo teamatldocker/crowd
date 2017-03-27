@@ -8,7 +8,7 @@
 
 | Version | Tags  | Dockerfile |
 |---------|-------|------------|
-|  2.11.0  | 2.11.0, latest | [Dockerfile](https://github.com/blacklabelops/crowd/blob/master/Dockerfile) |
+|  2.11.1  | 2.11.1, latest | [Dockerfile](https://github.com/blacklabelops/crowd/blob/master/Dockerfile) |
 
 > Older tags remain but are not supported/rebuild.
 
