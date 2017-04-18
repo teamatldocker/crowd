@@ -8,7 +8,7 @@
 
 | Version | Tags  | Dockerfile |
 |---------|-------|------------|
-|  2.11.1  | 2.11.1, latest | [Dockerfile](https://github.com/blacklabelops/crowd/blob/master/Dockerfile) |
+|  2.11.2  | 2.11.2, latest | [Dockerfile](https://github.com/blacklabelops/crowd/blob/master/Dockerfile) |
 
 > Older tags remain but are not supported/rebuild.
 
@@ -125,6 +125,25 @@ $ docker run -d --name crowd \
 ~~~~
 
 > Subapplications will not be accessible anymore. Crowd will run under root context under http://youdockerhost:8095/
+
+# Active Directory Support
+
+Crowd requires that you install a CA Certificate if you want to allow crowd to add users, or change passwords,
+in Active Directory ([More information](https://confluence.atlassian.com/crowd/configuring-an-ssl-certificate-for-microsoft-active-directory-63504388.html)).
+
+This is done automatically for any certificates that are present in the 'certs' directory in your persistant volume.  For example, if you had
+called your volume 'crowd', you simply need to copy the certificate to /var/lib/dockers/volumes/crowd/\_data/certs (if you are using the default
+storage location).
+
+You can validate that you have exported the correct certificate by checking that the 'CA' attribute is set to true
+~~~~
+[root@docker2 volumes]# openssl x509 -in crowd/_data/certs/client.crt -inform der -text -noout | grep CA:
+                CA:TRUE
+[root@docker volumes]#
+~~~~
+
+You will see the certificate being imported when the container is started.
+
 
 # Proxy Configuration
 
