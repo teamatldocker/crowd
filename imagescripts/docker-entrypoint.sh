@@ -28,8 +28,18 @@ fi
 
 processCrowdProxySettings
 
+# If there are any certificates that should be imported to the JVM Keystore,
+# import them
+KEYSTORE=$JAVA_HOME/jre/lib/security/cacerts
+if [ -d /var/atlassian/crowd/certs ]; then
+  for c in /var/atlassian/crowd/certs/* ; do
+    echo Found certificate $c, importing to JVM keystore
+    keytool -trustcacerts -keystore $KEYSTORE -storepass changeit -noprompt -importcert -file $c || :
+  done
+fi
+
 if [ "$1" = 'crowd' ] || [ "${1:0:1}" = '-' ]; then
-  exec /home/crowd/launch.sh
+  exec su-exec crowd /home/crowd/launch.sh
 else
-  exec "$@"
+  exec su-exec crowd "$@"
 fi

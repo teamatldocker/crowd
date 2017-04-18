@@ -26,6 +26,7 @@ RUN export MYSQL_DRIVER_VERSION=5.1.38 && \
       ca-certificates \
       gzip \
       curl \
+      su-exec \
       wget &&  \
     # Install xmlstarlet
     export XMLSTARLET_VERSION=1.6.1-r1              &&  \
@@ -103,7 +104,6 @@ ENV CROWD_URL=http://localhost:8095/crowd \
     DEMO_CONTEXT=demo \
     SPLASH_CONTEXT=ROOT
 
-USER crowd
 WORKDIR /var/atlassian/crowd
 VOLUME ["/var/atlassian/crowd"]
 EXPOSE 8095
