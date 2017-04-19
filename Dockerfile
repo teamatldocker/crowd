@@ -10,7 +10,8 @@ ENV CROWD_HOME=/var/atlassian/crowd \
     CROWD_INSTALL=/opt/crowd \
     CROWD_PROXY_NAME= \
     CROWD_PROXY_PORT= \
-    CROWD_PROXY_SCHEME=
+    CROWD_PROXY_SCHEME= \
+    KEYSTORE=$JAVA_HOME/jre/lib/security/cacerts
 
 RUN export MYSQL_DRIVER_VERSION=5.1.38 && \
     export POSTGRESQL_DRIVER_VERSION=9.4.1207 && \
@@ -26,6 +27,7 @@ RUN export MYSQL_DRIVER_VERSION=5.1.38 && \
       ca-certificates \
       gzip \
       curl \
+      su-exec \
       wget &&  \
     # Install xmlstarlet
     export XMLSTARLET_VERSION=1.6.1-r1              &&  \
@@ -61,7 +63,6 @@ RUN export MYSQL_DRIVER_VERSION=5.1.38 && \
     mv ${CROWD_INSTALL}/apache-tomcat/conf/Catalina/localhost /opt/crowd/webapps && \
     mkdir -p ${CROWD_INSTALL}/apache-tomcat/conf/Catalina/localhost && \
     # Adding letsencrypt-ca to truststore
-    export KEYSTORE=$JAVA_HOME/jre/lib/security/cacerts && \
     wget -P /tmp/ https://letsencrypt.org/certs/letsencryptauthorityx1.der && \
     wget -P /tmp/ https://letsencrypt.org/certs/letsencryptauthorityx2.der && \
     wget -P /tmp/ https://letsencrypt.org/certs/lets-encrypt-x1-cross-signed.der && \
@@ -103,7 +104,6 @@ ENV CROWD_URL=http://localhost:8095/crowd \
     DEMO_CONTEXT=demo \
     SPLASH_CONTEXT=ROOT
 
-USER crowd
 WORKDIR /var/atlassian/crowd
 VOLUME ["/var/atlassian/crowd"]
 EXPOSE 8095
