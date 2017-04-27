@@ -89,7 +89,6 @@ RUN chown -R crowd:crowd ${CROWD_HOME} && \
     apk del \
       ca-certificates \
       gzip \
-      curl \
       wget &&  \
     # Clean caches and tmps
     rm -rf /var/cache/apk/* && \
