@@ -20,6 +20,10 @@ function processCrowdProxySettings() {
   if [ -n "${CROWD_PROXY_SCHEME}" ]; then
     xmlstarlet ed -P -S -L --insert "//Connector[not(@scheme)]" --type attr -n scheme --value "${CROWD_PROXY_SCHEME}" ${CROWD_INSTALL}/apache-tomcat/conf/server.xml
   fi
+
+if [ -n "${CROWD_PROXY_SECURE}" ]; then
+    xmlstarlet ed -P -S -L --insert "//Connector[not(@secure)]" --type attr -n secure --value "${CROWD_PROXY_SECURE}" ${CROWD_INSTALL}/apache-tomcat/conf/server.xml
+  fi
 }
 
 if [ -n "${CROWD_DELAYED_START}" ]; then

@@ -234,6 +234,41 @@ $ docker run -d \
 
 > Crowd will be available at https://192.168.99.100.
 
+# Secure SSO Cookies
+
+Allow `secure`-Flag on Cookies for SSO by setting `CROWD_PROXY_SECURE` to true. Crowd assumes that requests are delivered in a secure manner. Those cookies enforce secured connections to any sso-enabled application using the crowd service. This setting is only useful in conjuction with a SSL-reverse-proxy.
+
+Example:
+
+~~~~
+$ docker run -d --name crowd \
+    -e "CROWD_URL=http://localhost:8095" \
+    -e "CROWD_PROXY_NAME=192.168.99.100" \
+    -e "CROWD_PROXY_PORT=443" \
+    -e "CROWD_PROXY_SCHEME=https" \
+    -e "CROWD_PROXY_SECURE=true" \
+    blacklabelops/crowd
+~~~~
+
+Then start NGINX:
+
+~~~~
+$ docker run -d \
+    -p 443:443 \
+    --name nginx \
+    --link crowd:crowd \
+    -e "SERVER1REVERSE_PROXY_LOCATION1=/" \
+    -e "SERVER1REVERSE_PROXY_PASS1=http://crowd:8095" \
+    -e "SERVER1CERTIFICATE_DNAME=/CN=CrustyClown/OU=SpringfieldEntertainment/O=crusty.springfield.com/L=Springfield/C=US" \
+    -e "SERVER1HTTPS_ENABLED=true" \
+    -e "SERVER1HTTP_ENABLED=false" \
+    blacklabelops/nginx
+~~~~
+
+> See [https://confluence.atlassian.com/crowd/sso-cookie-168003384.html](SSO Cookie) for details about secure cookies in Crowd.
+
+You may now configure Applications to use Crowd with SSO-features.
+
 # More In-Depth Features
 
 The full feature list is documented here as this image is feature identical with the atlassian example: [Readme.md](https://bitbucket.org/atlassianlabs/atlassian-docker/src/ee4a3434b1443ed4d9cfbf721ba7d4556da8c005/crowd/?at=master)
