@@ -77,7 +77,12 @@ RUN export MYSQL_DRIVER_VERSION=5.1.38 && \
     keytool -trustcacerts -keystore $KEYSTORE -storepass changeit -noprompt -importcert -alias letsencryptauthorityx4 -file /tmp/lets-encrypt-x4-cross-signed.der && \
     # Install atlassian ssl tool
     wget -O /home/${CONTAINER_USER}/SSLPoke.class https://confluence.atlassian.com/kb/files/779355358/779355357/1/1441897666313/SSLPoke.class && \
-    chown -R crowd:crowd /home/${CONTAINER_USER}
+    chown -R crowd:crowd /home/${CONTAINER_USER} && \
+    # Update AUI-Plugin to allow outgoing application links between to other Atlassian Products
+    zip -d ${CROWD_INSTALL}/crowd-webapp/WEB-INF/classes/atlassian-bundled-plugins.zip auiplugin-5.7.3.jar && \
+    wget https://maven.atlassian.com/content/repositories/atlassian-public/com/atlassian/aui/auiplugin/5.9.17/auiplugin-5.9.17.jar && \
+    zip -u ${CROWD_INSTALL}/crowd-webapp/WEB-INF/classes/atlassian-bundled-plugins.zip auiplugin-5.9.17.jar && \
+    rm auiplugin-5.9.17.jar
 ADD splash-context.xml /opt/crowd/webapps/splash.xml
 RUN chown -R crowd:crowd ${CROWD_HOME} && \
     chown -R crowd:crowd ${CROWD_INSTALL} && \
