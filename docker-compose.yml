@@ -7,7 +7,7 @@ services:
     networks:
       - crowdnet
     volumes:
-      - /var/opt/crowd/crowddata:/var/atlassian/crowd
+      - crowddata:/var/atlassian/crowd
     ports:
       - '20095:8095'
     environment:
@@ -27,11 +27,11 @@ services:
 
   postgresql:
     image: blacklabelops/postgres
-    hostname: crowd_postgresql
+    hostname: postgresql
     networks:
       - crowdnet
     volumes:
-      - /var/opt/crowd/postgresqldata:/var/lib/postgresql/data
+      - postgresqldata:/var/lib/postgresql/data
     environment:
         - 'POSTGRES_DB=crowddb'
         - 'POSTGRES_USER=crowddb'
@@ -39,6 +39,12 @@ services:
     labels:
       com.blacklabelops.description: "PostgreSQL Database Server"
       com.blacklabelops.service: "postgresql"
+
+volumes:
+  crowddata:
+    external: false
+  postgresqldata:
+    external: false
 
 networks:
   crowdnet:
