@@ -3,19 +3,19 @@ version: '2'
 services:
   crowd:
     image: blacklabelops/crowd
-    container_name: crowd
+    container_name: crowd_crowd
     networks:
       - crowdnet
     volumes:
       - crowddata:/var/atlassian/crowd
     ports:
-      - '8095:8095'
+      - '20095:8095'
     environment:
       - "CROWD_PROXY_NAME="
       - "CROWD_PROXY_PORT="
       - "CROWD_PROXY_SCHEME="
-      - "CROWD_URL=http://localhost:8095/crowd"
-      - "LOGIN_BASE_URL=http://localhost:8095"
+      - "CROWD_URL=http://localhost:20095/crowd"
+      - "LOGIN_BASE_URL=http://localhost:20095"
       - "SPLASH_CONTEXT=ROOT"
       - "CROWD_CONTEXT=crowd"
       - "CROWDID_CONTEXT=openidserver"
