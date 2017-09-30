@@ -87,6 +87,16 @@ Point your browser to http://yourdockerhost:8095
 1. In `Options` choose `http://localhost:8095/crowd` for field `Base URL` otherwise you won't be able to connect later on.
 1. Fill out the rest of the installation procedure.
 
+## Troubleshoot For Installation
+
+If you can't connect to your instance you might have configured the wrong `Base URL`. Run the installation described above again and stick to the manual for field `Base URL`.
+
+Typical error message in logs:
+
+~~~~
+Caused by: org.codehaus.xfire.fault.XFireFault: Client with address "xxx.xx.xx.xx" is forbidden from making requests to the application, crowd.
+~~~~
+
 # Disabling The Splash Context
 
 Set the Splash Screens context to empty string and crowd to root context.
