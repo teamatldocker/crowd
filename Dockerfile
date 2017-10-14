@@ -13,8 +13,7 @@ ENV CROWD_HOME=/var/atlassian/crowd \
     CROWD_PROXY_SCHEME= \
     KEYSTORE=$JAVA_HOME/jre/lib/security/cacerts
 
-RUN export MYSQL_DRIVER_VERSION=5.1.38 && \
-    export POSTGRESQL_DRIVER_VERSION=9.4.1207 && \
+RUN export MYSQL_DRIVER_VERSION=5.1.44 && \
     export CONTAINER_USER=crowd &&  \
     export CONTAINER_GROUP=crowd &&  \
     addgroup -g $CONTAINER_GID $CONTAINER_GROUP &&  \
@@ -55,9 +54,6 @@ RUN export MYSQL_DRIVER_VERSION=5.1.38 && \
       -C /tmp && \
     cp /tmp/mysql-connector-java-${MYSQL_DRIVER_VERSION}/mysql-connector-java-${MYSQL_DRIVER_VERSION}-bin.jar \
       ${CROWD_INSTALL}/apache-tomcat/lib/mysql-connector-java-${MYSQL_DRIVER_VERSION}-bin.jar  &&  \
-    rm -f ${CROWD_INSTALL}/lib/postgresql-*.jar &&  \
-    wget -O ${CROWD_INSTALL}/apache-tomcat/lib/postgresql-${POSTGRESQL_DRIVER_VERSION}.jar \
-      https://jdbc.postgresql.org/download/postgresql-${POSTGRESQL_DRIVER_VERSION}.jar && \
     # Adjusting directories
     mv ${CROWD_INSTALL}/apache-tomcat/webapps/ROOT /opt/crowd/splash-webapp && \
     mv ${CROWD_INSTALL}/apache-tomcat/conf/Catalina/localhost /opt/crowd/webapps && \
