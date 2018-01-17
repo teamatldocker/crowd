@@ -54,6 +54,9 @@ RUN export MYSQL_DRIVER_VERSION=5.1.44 && \
       -C /tmp && \
     cp /tmp/mysql-connector-java-${MYSQL_DRIVER_VERSION}/mysql-connector-java-${MYSQL_DRIVER_VERSION}-bin.jar \
       ${CROWD_INSTALL}/apache-tomcat/lib/mysql-connector-java-${MYSQL_DRIVER_VERSION}-bin.jar  &&  \
+    # support smtp authentication
+    sed -i 's/-Dfile.encoding=UTF-8/-Dmail.smtp.auth=true -Dfile.encoding=UTF-8/g' \
+      ${CROWD_INSTALL}apache-tomcat/bin/setenv.bat && \
     # Adjusting directories
     mv ${CROWD_INSTALL}/apache-tomcat/webapps/ROOT /opt/crowd/splash-webapp && \
     mv ${CROWD_INSTALL}/apache-tomcat/conf/Catalina/localhost /opt/crowd/webapps && \
