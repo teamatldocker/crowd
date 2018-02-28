@@ -96,7 +96,6 @@ ENV CROWD_URL=http://localhost:8095/crowd \
     CROWD_CONTEXT=crowd \
     CROWDID_CONTEXT=openidserver \
     OPENID_CLIENT_CONTEXT=openidclient \
-    DEMO_CONTEXT=demo \
     SPLASH_CONTEXT=ROOT
 
 WORKDIR /var/atlassian/crowd
