@@ -5,6 +5,8 @@ ARG CROWD_VERSION=3.3.0
 # permissions
 ARG CONTAINER_UID=1000
 ARG CONTAINER_GID=1000
+# Image Build Date By Buildsystem
+ARG BUILD_DATE=undefined
 
 ENV CROWD_HOME=/var/atlassian/crowd \
     CROWD_INSTALL=/opt/crowd \
@@ -96,6 +98,12 @@ ENV CROWD_URL=http://localhost:8095/crowd \
     CROWDID_CONTEXT=openidserver \
     OPENID_CLIENT_CONTEXT=openidclient \
     SPLASH_CONTEXT=ROOT
+
+# Image Metadata
+LABEL com.blacklabelops.application.crowd.version=$CROWD_VERSION \
+      com.blacklabelops.application.crowd.userid=$CONTAINER_UID \
+      com.blacklabelops.application.crowd.groupid=$CONTAINER_GID \
+      com.blacklabelops.image.builddate.crowd=${BUILD_DATE}
 
 WORKDIR /var/atlassian/crowd
 VOLUME ["/var/atlassian/crowd"]
