@@ -48,4 +48,4 @@ volumes:
 
 networks:
   crowdnet:
-    driver: bridge
+    driver: overlay
