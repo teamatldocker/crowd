@@ -14,7 +14,7 @@ function testImage() {
       if [ "$iteration" = '30' ]; then
         exit 1
       else
-        ((iteration=iteration+1))
+        iteration=$((iteration+1))
       fi
       sleep 10
   done
