@@ -27,7 +27,7 @@ if [ -n "$CROWD_CONTEXT" ]; then
   echo "Installing Crowd at $CROWD_CONTEXT"
   ln -s /opt/crowd/webapps/crowd.xml ${CROWD_CONTEXT}.xml
 fi
-cd /opt/crowd
+cd /opt/crowd/crowd
 
 if [ -z "$DEMO_LOGIN_URL" ]; then
   if [ "$DEMO_CONTEXT" == "ROOT" ]; then
