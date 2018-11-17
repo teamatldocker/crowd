@@ -1,6 +1,8 @@
 #!/bin/bash
 set -o errexit
 
+[[ ${DEBUG} == true ]] && set -x
+
 . /home/crowd/common.sh
 
 cd ${CROWD_INSTALL}/apache-tomcat/conf/Catalina/localhost
@@ -27,7 +29,7 @@ if [ -n "$CROWD_CONTEXT" ]; then
   echo "Installing Crowd at $CROWD_CONTEXT"
   ln -s /opt/crowd/webapps/crowd.xml ${CROWD_CONTEXT}.xml
 fi
-cd /opt/crowd/crowd
+cd /opt/crowd
 
 if [ -z "$DEMO_LOGIN_URL" ]; then
   if [ "$DEMO_CONTEXT" == "ROOT" ]; then
@@ -98,19 +100,38 @@ if [ -n "$CROWDID_CONTEXT" ]; then
               />
     </Context>
 EOF
-    config_line build.properties hibernate.dialect "$CROWDIDDB_DIALECT"
+    config_line crowd/build.properties hibernate.dialect "$CROWDIDDB_DIALECT"
   fi
 fi
 
-config_line build.properties demo.url "$DEMO_LOGIN_URL"
-config_line build.properties openidserver.url "$CROWDID_LOGIN_URL"
-config_line build.properties crowd.url "$CROWD_URL"
+config_line crowd/build.properties demo.url "$DEMO_LOGIN_URL"
+config_line crowd/build.properties openidserver.url "$CROWDID_LOGIN_URL"
+config_line crowd/build.properties crowd.url "$CROWD_URL"
 
+cd crowd
 ./build.sh
+cd ..
 
 if [ -f "${CROWD_HOME}/crowd.properties" ]; then
   config_line ${CROWD_HOME}/crowd.properties crowd.server.url "$(config_line crowd-webapp/WEB-INF/classes/crowd.properties crowd.server.url)"
   config_line ${CROWD_HOME}/crowd.properties application.login.url "$(config_line crowd-webapp/WEB-INF/classes/crowd.properties application.login.url)"
 fi
 
-apache-tomcat/bin/catalina.sh run
+function updateProperties() {
+  local propertyfile=$1
+  local propertyname=$2
+  local propertyvalue=$3
+  set +e
+  grep -q "^${propertyname}=" ${propertyfile}
+  if [ $? -eq 0 ]; then
+    set -e
+    config_line $1 $2 "$3"
+  else
+    set -e
+    echo "${propertyname}=${propertyvalue}" >> ${propertyfile}
+  fi
+}
+
+updateProperties ${CROWD_INSTALL}/crowd/crowd-webapp/WEB-INF/classes/crowd-init.properties crowd.home "${CROWD_HOME}"
+
+crowd/apache-tomcat/bin/catalina.sh run

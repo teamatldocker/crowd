@@ -88,3 +88,22 @@ extract_database_url() {
   eval "${prefix}_DIALECT=\"$hibernate_dialect\""
   eval "${prefix}_TYPE=\"$database_type\""
 }
+
+function updateProperties() {
+  local propertyfile=$1
+  local propertyname=$2
+  local propertyvalue=$3
+  set +e
+  grep -q "^${propertyname}=" ${propertyfile}
+  if [ $? -eq 0 ]; then
+    set -e
+    if [[ $propertyvalue == /* ]]; then
+      sed -i "s/\(${propertyname/./\\.}=\).*\$/\1\\${propertyvalue}/" ${propertyfile}
+    else
+      sed -i "s/\(${propertyname/./\\.}=\).*\$/\1${propertyvalue}/" ${propertyfile}
+    fi
+  else
+    set -e
+    echo "${propertyname}=${propertyvalue}" >> ${propertyfile}
+  fi
+}

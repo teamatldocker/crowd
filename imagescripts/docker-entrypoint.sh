@@ -8,6 +8,8 @@
 
 set -o errexit
 
+[[ ${DEBUG} == true ]] && set -x
+
 function processCrowdProxySettings() {
   if [ -n "${CROWD_PROXY_NAME}" ]; then
     xmlstarlet ed -P -S -L --insert "//Connector[not(@proxyName)]" --type attr -n proxyName --value "${CROWD_PROXY_NAME}" ${CROWD_INSTALL}/apache-tomcat/conf/server.xml
