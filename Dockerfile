@@ -60,8 +60,7 @@ RUN export MYSQL_DRIVER_VERSION=5.1.44 && \
       ${CROWD_INSTALL}/apache-tomcat/lib/mysql-connector-java-${MYSQL_DRIVER_VERSION}-bin.jar  &&  \
     # Adjusting directories
     mv ${CROWD_INSTALL}/apache-tomcat/webapps/ROOT /opt/crowd/splash-webapp && \
-    mv ${CROWD_INSTALL}/apache-tomcat/conf/Catalina/localhost /opt/crowd/webapps && \
-    mkdir -p ${CROWD_INSTALL}/apache-tomcat/conf/Catalina/localhost && \
+    mv ${CROWD_INSTALL}/apache-tomcat/conf/Catalina/localhost/* /opt/crowd/webapps && \
     # Adding letsencrypt-ca to truststore
     wget -P /tmp/ https://letsencrypt.org/certs/letsencryptauthorityx1.der && \
     wget -P /tmp/ https://letsencrypt.org/certs/letsencryptauthorityx2.der && \
