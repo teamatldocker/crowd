@@ -42,7 +42,7 @@ RUN export MYSQL_DRIVER_VERSION=5.1.44 && \
     mv /tmp/atlassian-crowd-${CROWD_VERSION} /tmp/crowd && \
     ls -A /tmp && \
     mkdir -p /opt && \
-    mv /tmp/crowd /opt/crowd && \
+    mv /tmp/crowd/* /opt/crowd && \
     mkdir -p ${CROWD_HOME} && \
     mkdir -p ${CROWD_INSTALL}/crowd-webapp/WEB-INF/classes && \
     mkdir -p ${CROWD_INSTALL}/apache-tomcat/lib && \
@@ -60,8 +60,7 @@ RUN export MYSQL_DRIVER_VERSION=5.1.44 && \
       ${CROWD_INSTALL}/apache-tomcat/lib/mysql-connector-java-${MYSQL_DRIVER_VERSION}-bin.jar  &&  \
     # Adjusting directories
     mv ${CROWD_INSTALL}/apache-tomcat/webapps/ROOT /opt/crowd/splash-webapp && \
-    mv ${CROWD_INSTALL}/apache-tomcat/conf/Catalina/localhost /opt/crowd/webapps && \
-    mkdir -p ${CROWD_INSTALL}/apache-tomcat/conf/Catalina/localhost && \
+    mv ${CROWD_INSTALL}/apache-tomcat/conf/Catalina/localhost/* /opt/crowd/webapps && \
     # Adding letsencrypt-ca to truststore
     wget -P /tmp/ https://letsencrypt.org/certs/letsencryptauthorityx1.der && \
     wget -P /tmp/ https://letsencrypt.org/certs/letsencryptauthorityx2.der && \

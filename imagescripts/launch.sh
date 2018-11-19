@@ -12,24 +12,24 @@ done
 
 if [ -n "$SPLASH_CONTEXT" ]; then
   echo "Installing splash as $SPLASH_CONTEXT"
-  ln -s /opt/crowd/webapps/splash.xml ${SPLASH_CONTEXT}.xml
+  ln -s ${CROWD_INSTALL}/webapps/splash.xml ${SPLASH_CONTEXT}.xml
 fi
 
 if [ -n "$OPENID_CLIENT_CONTEXT" ]; then
   echo "Installing OpenID client at $OPENID_CLIENT_CONTEXT"
-  ln -s /opt/crowd/webapps/openidclient.xml ${OPENID_CLIENT_CONTEXT}.xml
+  ln -s ${CROWD_INSTALL}/webapps/openidclient.xml ${OPENID_CLIENT_CONTEXT}.xml
 fi
 
 if [ -n "$CROWDID_CONTEXT" ]; then
   echo "Installing OpenID server at $CROWDID_CONTEXT"
-  ln -s /opt/crowd/webapps/openidserver.xml ${CROWDID_CONTEXT}.xml
+  ln -s ${CROWD_INSTALL}/webapps/openidserver.xml ${CROWDID_CONTEXT}.xml
 fi
 
 if [ -n "$CROWD_CONTEXT" ]; then
   echo "Installing Crowd at $CROWD_CONTEXT"
-  ln -s /opt/crowd/webapps/crowd.xml ${CROWD_CONTEXT}.xml
+  ln -s ${CROWD_INSTALL}/webapps/crowd.xml ${CROWD_CONTEXT}.xml
 fi
-cd /opt/crowd
+cd ${CROWD_INSTALL}
 
 if [ -z "$DEMO_LOGIN_URL" ]; then
   if [ "$DEMO_CONTEXT" == "ROOT" ]; then
@@ -63,7 +63,7 @@ if [ -n "$CROWD_CONTEXT" ]; then
     CROWDDB_URL="$DATABASE_URL"
   fi
   if [ -n "$CROWDDB_URL" ]; then
-    extract_database_url "$CROWDDB_URL" CROWDDB /opt/crowd/apache-tomcat/lib
+    extract_database_url "$CROWDDB_URL" CROWDDB ${CROWD_INSTALL}/apache-tomcat/lib
     CROWDDB_JDBC_URL="$(xmlstarlet esc "$CROWDDB_JDBC_URL")"
     cat << EOF > webapps/crowd.xml
     <Context docBase="../../crowd-webapp" useHttpOnly="true">
@@ -88,7 +88,7 @@ if [ -n "$CROWDID_CONTEXT" ]; then
     CROWDIDDB_URL="$DATABASE_URL"
   fi
   if [ -n "$CROWDIDDB_URL" ]; then
-    extract_database_url "$CROWDIDDB_URL" CROWDIDDB "/opt/crowd/apache-tomcat/lib"
+    extract_database_url "$CROWDIDDB_URL" CROWDIDDB "${CROWD_INSTALL}/apache-tomcat/lib"
     CROWDIDDB_JDBC_URL="$(xmlstarlet esc "$CROWDIDDB_JDBC_URL")"
     cat << EOF > webapps/openidserver.xml
     <Context docBase="../../crowd-openidserver-webapp">
@@ -100,17 +100,15 @@ if [ -n "$CROWDID_CONTEXT" ]; then
               />
     </Context>
 EOF
-    config_line crowd/build.properties hibernate.dialect "$CROWDIDDB_DIALECT"
+    config_line build.properties hibernate.dialect "$CROWDIDDB_DIALECT"
   fi
 fi
 
-config_line crowd/build.properties demo.url "$DEMO_LOGIN_URL"
-config_line crowd/build.properties openidserver.url "$CROWDID_LOGIN_URL"
-config_line crowd/build.properties crowd.url "$CROWD_URL"
+config_line build.properties demo.url "$DEMO_LOGIN_URL"
+config_line build.properties openidserver.url "$CROWDID_LOGIN_URL"
+config_line build.properties crowd.url "$CROWD_URL"
 
-cd crowd
 ./build.sh
-cd ..
 
 if [ -f "${CROWD_HOME}/crowd.properties" ]; then
   config_line ${CROWD_HOME}/crowd.properties crowd.server.url "$(config_line crowd-webapp/WEB-INF/classes/crowd.properties crowd.server.url)"
@@ -132,6 +130,6 @@ function updateProperties() {
   fi
 }
 
-updateProperties ${CROWD_INSTALL}/crowd/crowd-webapp/WEB-INF/classes/crowd-init.properties crowd.home "${CROWD_HOME}"
+updateProperties ${CROWD_INSTALL}/crowd-webapp/WEB-INF/classes/crowd-init.properties crowd.home "${CROWD_HOME}"
 
-crowd/apache-tomcat/bin/catalina.sh run
+apache-tomcat/bin/catalina.sh run
