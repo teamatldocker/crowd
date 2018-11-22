@@ -66,7 +66,7 @@ if [ -n "$CROWD_CONTEXT" ]; then
     extract_database_url "$CROWDDB_URL" CROWDDB ${CROWD_INSTALL}/apache-tomcat/lib
     CROWDDB_JDBC_URL="$(xmlstarlet esc "$CROWDDB_JDBC_URL")"
     cat << EOF > webapps/crowd.xml
-    <Context docBase="../../crowd-webapp" useHttpOnly="true">
+    <Context docBase="$CROWD_INSTALL/crowd-webapp" useHttpOnly="true">
       <Resource name="jdbc/CrowdDS" auth="Container" type="javax.sql.DataSource"
                 username="$CROWDDB_USER"
                 password="$CROWDDB_PASSWORD"
@@ -91,7 +91,7 @@ if [ -n "$CROWDID_CONTEXT" ]; then
     extract_database_url "$CROWDIDDB_URL" CROWDIDDB "${CROWD_INSTALL}/apache-tomcat/lib"
     CROWDIDDB_JDBC_URL="$(xmlstarlet esc "$CROWDIDDB_JDBC_URL")"
     cat << EOF > webapps/openidserver.xml
-    <Context docBase="../../crowd-openidserver-webapp">
+    <Context docBase="$CROWD_INSTALL/crowd-openidserver-webapp">
       <Resource name="jdbc/CrowdIDDS" auth="Container" type="javax.sql.DataSource"
                 username="$CROWDIDDB_USER"
                 password="$CROWDIDDB_PASSWORD"
