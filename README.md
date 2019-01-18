@@ -1,9 +1,5 @@
 # Dockerized Atlassian Crowd
 
-[![Circle CI](https://circleci.com/gh/blacklabelops/crowd/tree/master.svg?style=shield)](https://circleci.com/gh/blacklabelops/crowd/tree/master) [![Docker Stars](https://img.shields.io/docker/stars/blacklabelops/crowd.svg)](https://hub.docker.com/r/blacklabelops/crowd/) [![Docker Pulls](https://img.shields.io/docker/pulls/blacklabelops/crowd.svg)](https://hub.docker.com/r/blacklabelops/crowd/)
-
-[![Try in PWD](https://raw.githubusercontent.com/play-with-docker/stacks/master/assets/images/button.png)](https://labs.play-with-docker.com/?stack=https://raw.githubusercontent.com/blacklabelops/crowd/master/dc-pwd.yml)
-
 "Users can come from anywhere: Active Directory, LDAP, Crowd itself, or any mix thereof. Control permissions to all your applications in one place – Atlassian, Subversion, Google Apps, or your own apps." - [[Source](https://www.atlassian.com/software/crowd/overview)]
 
 ## Supported tags and respective Dockerfile links
@@ -284,10 +280,6 @@ You may now configure Applications to use Crowd with SSO-features.
 # More In-Depth Features
 
 The full feature list is documented here as this image is feature identical with the atlassian example: [Readme.md](https://bitbucket.org/atlassianlabs/atlassian-docker/src/ee4a3434b1443ed4d9cfbf721ba7d4556da8c005/crowd/?at=master)
-
-# Support
-
-Leave a message and ask questions on Hipchat: [blacklabelops/hipchat](http://support.blacklabelops.com)
 
 # Credits
 
