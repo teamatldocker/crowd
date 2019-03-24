@@ -13,7 +13,7 @@ readonly PUSH_VERSION=$CROWD_VERSION
 function pushImage() {
   local tagname=$1
 
-  docker push blacklabelops/crowd:$tagname
+  docker push atldocker/crowd:$tagname
 }
 
 pushImage latest

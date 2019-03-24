@@ -6,7 +6,7 @@
 
 | Version | Tags  | Dockerfile |
 |---------|-------|------------|
-|  3.3.0  | 3.3.0, latest | [Dockerfile](https://github.com/blacklabelops/crowd/blob/master/Dockerfile) |
+|  3.4.0  | 3.4.0, latest | [Dockerfile](https://github.com/atldocker/crowd/blob/master/Dockerfile) |
 
 > Older tags remain but are not supported/rebuild.
 
@@ -14,17 +14,17 @@
 
 You may also like:
 
-* [blacklabelops/jira](https://github.com/blacklabelops/jira): The #1 software development tool used by agile teams
-* [blacklabelops/confluence](https://github.com/blacklabelops/confluence): Create, organize, and discuss work with your team
-* [blacklabelops/bitbucket](https://github.com/blacklabelops/bitbucket): Code, Manage, Collaborate
-* [blacklabelops/crowd](https://github.com/blacklabelops/crowd): Identity management for web apps
+* [atldocker/jira](https://github.com/atldocker/jira): The #1 software development tool used by agile teams
+* [atldocker/confluence](https://github.com/atldocker/confluence): Create, organize, and discuss work with your team
+* [atldocker/bitbucket](https://github.com/atldocker/bitbucket): Code, Manage, Collaborate
+* [atldocker/crowd](https://github.com/atldocker/crowd): Identity management for web apps
 
 # Make It Short
 
 Docker-Compose:
 
 ~~~~
-$ curl -O https://raw.githubusercontent.com/blacklabelops/crowd/master/docker-compose.yml
+$ curl -O https://raw.githubusercontent.com/atldocker/crowd/master/docker-compose.yml
 $ docker-compose up -d
 ~~~~
 
@@ -35,7 +35,7 @@ Docker-CLI:
 Just type and follow the manual installation procedure in your browser:
 
 ~~~~
-$ docker run -d -p 8095:8095 --name crowd blacklabelops/crowd
+$ docker run -d -p 8095:8095 --name crowd atldocker/crowd
 ~~~~
 
 > Point your browser to http://yourdockerhost:8095
@@ -55,7 +55,7 @@ $ docker run --name postgres_crowd -d \
     -e 'POSTGRES_DB=crowddb' \
     -e 'POSTGRES_USER=crowddb' \
     -e 'POSTGRES_PASSWORD=jellyfish' \
-    blacklabelops/postgres
+    postgres:9.6
 ~~~~
 
 Secondly, start Crowd:
@@ -63,7 +63,7 @@ Secondly, start Crowd:
 ~~~~
 $ docker run -d --name crowd \
 	  --link postgres_crowd:postgres_crowd \
-	  -p 8095:8095 blacklabelops/crowd
+	  -p 8095:8095 atldocker/crowd
 ~~~~
 
 >  Starts Crowd and links it to the postgresql instances. JDBC URL: jdbc:postgresql://postgres_crowd/crowddb
@@ -104,7 +104,7 @@ $ docker run -d --name crowd \
     -e "CROWD_URL=http://localhost:8095" \
 	  -e "SPLASH_CONTEXT=" \
     -e "CROWD_CONTEXT=ROOT" \
-	  -p 8095:8095 blacklabelops/crowd
+	  -p 8095:8095 atldocker/crowd
 ~~~~
 
 > Splash context will never be shown, crowd will be shown under http://youdockerhost:8095/
@@ -129,7 +129,7 @@ $ docker run -d --name crowd \
     -e "CROWD_CONTEXT=ROOT" \
     -e "CROWDID_CONTEXT=" \
     -e "OPENID_CLIENT_CONTEXT=" \
-	  -p 8095:8095 blacklabelops/crowd
+	  -p 8095:8095 atldocker/crowd
 ~~~~
 
 > Subapplications will not be accessible anymore. Crowd will run under root context under http://youdockerhost:8095/
@@ -172,7 +172,7 @@ $ docker run -d --name crowd \
     -e "CROWD_PROXY_NAME=myhost.example.com" \
     -e "CROWD_PROXY_PORT=443" \
     -e "CROWD_PROXY_SCHEME=https" \
-    blacklabelops/crowd
+    atldocker/crowd
 ~~~~
 
 > Will set the values inside the server.xml in /opt/crowd/.../server.xml
@@ -188,7 +188,7 @@ $ docker run -d --name crowd \
     -e "CROWD_PROXY_NAME=192.168.99.100" \
     -e "CROWD_PROXY_PORT=80" \
     -e "CROWD_PROXY_SCHEME=http" \
-    blacklabelops/crowd
+    atldocker/crowd
 ~~~~
 
 > Example with dockertools
@@ -202,7 +202,7 @@ $ docker run -d \
     --link crowd:crowd \
     -e "SERVER1REVERSE_PROXY_LOCATION1=/" \
     -e "SERVER1REVERSE_PROXY_PASS1=http://crowd:8095" \
-    blacklabelops/nginx
+    atldocker/nginx
 ~~~~
 
 > Crowd will be available at http://192.168.99.100.
@@ -211,7 +211,7 @@ $ docker run -d \
 
 This is an example on running Atlassian Crowd behind NGINX-HTTPS with2 Docker commands!
 
-Note: This is a self-signed certificate! Trusted certificates by letsencrypt are supported. Documentation can be found here: [blacklabelops/nginx](https://github.com/blacklabelops/nginx)
+Note: This is a self-signed certificate! Trusted certificates by letsencrypt are supported. Documentation can be found here: [atldocker/nginx](https://github.com/atldocker/nginx)
 
 First start Crowd:
 
@@ -220,7 +220,7 @@ $ docker run -d --name crowd \
     -e "CROWD_PROXY_NAME=192.168.99.100" \
     -e "CROWD_PROXY_PORT=80" \
     -e "CROWD_PROXY_SCHEME=http" \
-    blacklabelops/crowd
+    atldocker/crowd
 ~~~~
 
 > Example with dockertools
@@ -237,7 +237,7 @@ $ docker run -d \
     -e "SERVER1CERTIFICATE_DNAME=/CN=CrustyClown/OU=SpringfieldEntertainment/O=crusty.springfield.com/L=Springfield/C=US" \
     -e "SERVER1HTTPS_ENABLED=true" \
     -e "SERVER1HTTP_ENABLED=false" \
-    blacklabelops/nginx
+    atldocker/nginx
 ~~~~
 
 > Crowd will be available at https://192.168.99.100.
@@ -255,7 +255,7 @@ $ docker run -d --name crowd \
     -e "CROWD_PROXY_PORT=443" \
     -e "CROWD_PROXY_SCHEME=https" \
     -e "CROWD_PROXY_SECURE=true" \
-    blacklabelops/crowd
+    atldocker/crowd
 ~~~~
 
 Then start NGINX:
@@ -270,7 +270,7 @@ $ docker run -d \
     -e "SERVER1CERTIFICATE_DNAME=/CN=CrustyClown/OU=SpringfieldEntertainment/O=crusty.springfield.com/L=Springfield/C=US" \
     -e "SERVER1HTTPS_ENABLED=true" \
     -e "SERVER1HTTP_ENABLED=false" \
-    blacklabelops/nginx
+    atldocker/nginx
 ~~~~
 
 > See [https://confluence.atlassian.com/crowd/sso-cookie-168003384.html](SSO Cookie) for details about secure cookies in Crowd.
@@ -293,4 +293,3 @@ This project is very grateful for code and examples from the repositories:
 * [Docker Homepage](https://www.docker.com/)
 * [Docker Compose](https://docs.docker.com/compose/)
 * [Docker Userguide](https://docs.docker.com/userguide/)
-* [Oracle Java](https://java.com/de/download/)

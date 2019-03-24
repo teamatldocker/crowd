@@ -2,7 +2,7 @@ version: '3'
 
 services:
   crowd:
-    image: blacklabelops/crowd
+    image: atldocker/crowd
     container_name: crowd
     networks:
       - crowdnet
@@ -22,11 +22,11 @@ services:
       - "OPENID_CLIENT_CONTEXT=openidclient"
       - "DEMO_CONTEXT=demo"
     labels:
-      com.blacklabelops.description: "Atlassian Crowd"
-      com.blacklabelops.service: "crowd"
+      org.atldocker.description: "Atlassian Crowd"
+      org.atldocker.service: "crowd"
 
   postgresql:
-    image: blacklabelops/postgres
+    image: postgres:9.6
     hostname: postgresql
     networks:
       - crowdnet
@@ -37,8 +37,8 @@ services:
         - 'POSTGRES_USER=crowddb'
         - 'POSTGRES_PASSWORD=jellyfish'
     labels:
-      com.blacklabelops.description: "PostgreSQL Database Server"
-      com.blacklabelops.service: "postgresql"
+      org.atldocker.description: "PostgreSQL Database Server"
+      org.atldocker.service: "postgresql"
 
 volumes:
   crowddata:

@@ -1,7 +1,6 @@
-FROM blacklabelops/java:openjdk.8
-MAINTAINER Steffen Bleul <sbl@blacklabelops.com>
+FROM adoptopenjdk/openjdk8:alpine
 
-ARG CROWD_VERSION=3.3.0
+ARG CROWD_VERSION=3.4.0
 # permissions
 ARG CONTAINER_UID=1000
 ARG CONTAINER_GID=1000
@@ -17,7 +16,7 @@ ENV CROWD_HOME=/var/atlassian/crowd \
 
 ADD splash-context.xml /opt/crowd/webapps/splash.xml
 
-RUN export MYSQL_DRIVER_VERSION=5.1.44 && \
+RUN export MYSQL_DRIVER_VERSION=5.1.47 && \
     export CONTAINER_USER=crowd &&  \
     export CONTAINER_GROUP=crowd &&  \
     addgroup -g $CONTAINER_GID $CONTAINER_GROUP &&  \
@@ -27,15 +26,14 @@ RUN export MYSQL_DRIVER_VERSION=5.1.44 && \
             -s /bin/bash \
             -S $CONTAINER_USER &&  \
     apk add --update \
+      bash \
       ca-certificates \
       gzip \
       curl \
       su-exec \
-      wget &&  \
-    # Install xmlstarlet
-    export XMLSTARLET_VERSION=1.6.1-r1              &&  \
-    wget --directory-prefix=/tmp https://github.com/menski/alpine-pkg-xmlstarlet/releases/download/${XMLSTARLET_VERSION}/xmlstarlet-${XMLSTARLET_VERSION}.apk && \
-    apk add --allow-untrusted /tmp/xmlstarlet-${XMLSTARLET_VERSION}.apk && \
+      tini \
+      wget \
+      xmlstarlet &&  \
     wget -O /tmp/crowd.tar.gz https://www.atlassian.com/software/crowd/downloads/binary/atlassian-crowd-${CROWD_VERSION}.tar.gz && \
     tar zxf /tmp/crowd.tar.gz -C /tmp && \
     ls -A /tmp && \
@@ -78,10 +76,6 @@ RUN export MYSQL_DRIVER_VERSION=5.1.44 && \
     chown -R crowd:crowd /home/${CONTAINER_USER} && \
     chown -R crowd:crowd ${CROWD_HOME} && \
     chown -R crowd:crowd ${CROWD_INSTALL} && \
-    # Install Tini Zombie Reaper And Signal Forwarder
-    export TINI_VERSION=0.9.0 && \
-    curl -fsSL https://github.com/krallin/tini/releases/download/v${TINI_VERSION}/tini-static -o /bin/tini && \
-    chmod +x /bin/tini && \
     # Remove obsolete packages
     apk del \
       ca-certificates \
@@ -100,14 +94,14 @@ ENV CROWD_URL=http://localhost:8095/crowd \
     SPLASH_CONTEXT=ROOT
 
 # Image Metadata
-LABEL com.blacklabelops.application.crowd.version=$CROWD_VERSION \
-      com.blacklabelops.application.crowd.userid=$CONTAINER_UID \
-      com.blacklabelops.application.crowd.groupid=$CONTAINER_GID \
-      com.blacklabelops.image.builddate.crowd=${BUILD_DATE}
+LABEL org.atldocker.application.crowd.version=$CROWD_VERSION \
+      org.atldocker.application.crowd.userid=$CONTAINER_UID \
+      org.atldocker.application.crowd.groupid=$CONTAINER_GID \
+      org.atldocker.image.builddate.crowd=${BUILD_DATE}
 
 WORKDIR /var/atlassian/crowd
 VOLUME ["/var/atlassian/crowd"]
 EXPOSE 8095
 COPY imagescripts /home/crowd
-ENTRYPOINT ["/bin/tini","--","/home/crowd/docker-entrypoint.sh"]
+ENTRYPOINT ["/sbin/tini","--","/home/crowd/docker-entrypoint.sh"]
 CMD ["crowd"]
