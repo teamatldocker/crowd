@@ -18,11 +18,11 @@ jobs:
           name: Build Branch Images
           command: |
             set +o pipefail
-            sh buildscripts/buildDevelopmentImages.sh
+            sh buildscripts/buildImage.sh
       - run:
           name: Test Branch Images
           command: |
-              sh buildscripts/testDevelopmentImages.sh
+              sh buildscripts/testImage.sh
 
   build_releases:
     working_directory: /app
