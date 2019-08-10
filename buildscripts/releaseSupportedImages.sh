@@ -13,7 +13,7 @@ readonly PUSH_VERSION=$CROWD_VERSION
 function pushImage() {
   local tagname=$1
 
-  docker push teamatldocker/crowd:$tagname
+  docker push karlhto/crowd:$tagname
 }
 
 pushImage latest

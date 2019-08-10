@@ -5,7 +5,7 @@ set -o errexit    # abort script at first error
 function testImage() {
   local tagname=$1
   local iteration=0
-  docker run -d --network crowd_dockertestnet --name=crowd.$tagname teamatldocker/crowd:$tagname
+  docker run -d --network crowd_dockertestnet --name=crowd.$tagname karlhto/crowd:$tagname
   while ! docker run --rm --network crowd_dockertestnet tutum/curl curl http://crowd.$tagname:8095
   do
       { echo "Exit status of curl (${iteration}): $?"
