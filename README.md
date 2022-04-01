@@ -1,3 +1,5 @@
+# Do not use! This is a hack we created to support MySQL 5.7. Please use the official docker image: [atlassian/crowd](https://hub.docker.com/r/atlassian/crowd)
+
 # Dockerized Atlassian Crowd
 
 "Users can come from anywhere: Active Directory, LDAP, Crowd itself, or any mix thereof. Control permissions to all your applications in one place – Atlassian, Subversion, Google Apps, or your own apps." - [[Source](https://www.atlassian.com/software/crowd/overview)]
