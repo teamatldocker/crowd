@@ -3,4 +3,4 @@
 #------------------
 # CONTAINER VARIABLES
 #------------------
-export CROWD_VERSION=4.1.10
+export CROWD_VERSION=5.0.1
