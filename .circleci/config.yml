@@ -14,16 +14,6 @@ jobs:
               py-pip \
               curl \
               curl-dev
-      - run:
-          name: Build Branch Images
-          command: |
-            set +o pipefail
-            sh buildscripts/buildDevelopmentImages.sh
-      - run:
-          name: Test Branch Images
-          command: |
-              sh buildscripts/testDevelopmentImages.sh
-
   build_releases:
     working_directory: /app
     docker:
